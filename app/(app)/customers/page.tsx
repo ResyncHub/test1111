@@ -17,7 +17,8 @@ export default function CustomersPage() {
       setLoading(true);
       fetch(`/api/customers${q ? `?q=${encodeURIComponent(q)}` : ""}`)
         .then(r => r.json())
-        .then(data => { setCustomers(data); setLoading(false); });
+        .then(data => { setCustomers(Array.isArray(data) ? data : []); setLoading(false); })
+        .catch(() => setLoading(false));
     }, 300);
     return () => clearTimeout(timeout);
   }, [q]);
