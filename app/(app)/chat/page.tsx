@@ -42,7 +42,7 @@ export default function ChatPage() {
       });
       const data = await res.json();
 
-      setMessages(prev => [...prev, { role: "assistant", content: data.message }]);
+      setMessages(prev => [...prev, { role: "assistant", content: data.message ?? "Przepraszam, wystąpił błąd. Spróbuj ponownie." }]);
 
       if (data.navigate?.route) {
         setTimeout(() => router.push(data.navigate.route), 800);
