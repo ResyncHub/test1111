@@ -17,7 +17,8 @@ export default function FinancePage() {
     setLoading(true);
     fetch(`/api/finance/summary?year=${year}`)
       .then(r => r.json())
-      .then(d => { setData(d); setLoading(false); });
+      .then(d => { setData(Array.isArray(d) ? d : []); setLoading(false); })
+      .catch(() => setLoading(false));
   }, [year]);
 
   const chartData = data.map(d => ({
