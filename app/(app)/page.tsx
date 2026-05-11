@@ -14,7 +14,13 @@ export default function DashboardPage() {
     Promise.all([
       fetch("/api/finance/dashboard").then(r => r.json()),
       fetch("/api/jobs?limit=5").then(r => r.json()),
-    ]).then(([s, jobs]) => { setStats(s); setRecentJobs(jobs); });
+    ]).then(([s, jobs]) => {
+      setStats(s?.error ? null : s);
+      setRecentJobs(Array.isArray(jobs) ? jobs : []);
+    }).catch(() => {
+      setStats(null);
+      setRecentJobs([]);
+    });
   }, []);
 
   const statCards = stats ? [
