@@ -31,16 +31,20 @@ export default function CalendarPage() {
         initialView="dayGridMonth"
         locale={plLocale}
         headerToolbar={{ left: "prev,next", center: "title", right: "dayGridMonth,timeGridWeek" }}
-        events={async (info, success) => {
-          const res = await fetch(`/api/calendar?from=${info.startStr}&to=${info.endStr}`);
-          const jobs = await res.json();
-          success(jobs.map((j: { id: string; title: string; status: string; scheduled_at: string; scheduled_end_at?: string; customer?: { full_name: string } }) => ({
-            id: j.id,
-            title: j.customer ? `${j.title} — ${j.customer.full_name}` : j.title,
-            start: j.scheduled_at,
-            end: j.scheduled_end_at ?? undefined,
-            backgroundColor: STATUS_COLORS[j.status] ?? "#6b7280",
-          })));
+        events={async (info, success, failure) => {
+          try {
+            const res = await fetch(`/api/calendar?from=${info.startStr}&to=${info.endStr}`);
+            const jobs = await res.json();
+            success(Array.isArray(jobs) ? jobs.map((j: { id: string; title: string; status: string; scheduled_at: string; scheduled_end_at?: string; customer?: { full_name: string } }) => ({
+              id: j.id,
+              title: j.customer ? `${j.title} — ${j.customer.full_name}` : j.title,
+              start: j.scheduled_at,
+              end: j.scheduled_end_at ?? undefined,
+              backgroundColor: STATUS_COLORS[j.status] ?? "#6b7280",
+            })) : []);
+          } catch {
+            failure({ message: "Błąd ładowania kalendarza" });
+          }
         }}
         eventClick={info => router.push(`/jobs/${info.event.id}`)}
         height="auto"
