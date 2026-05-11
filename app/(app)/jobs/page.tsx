@@ -23,7 +23,7 @@ export default function JobsPage() {
   useEffect(() => {
     setLoading(true);
     const url = tab === "all" ? "/api/jobs" : `/api/jobs?status=${tab}`;
-    fetch(url).then(r => r.json()).then(data => { setJobs(data); setLoading(false); });
+    fetch(url).then(r => r.json()).then(data => { setJobs(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
   }, [tab]);
 
   return (
