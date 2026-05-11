@@ -19,7 +19,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/jobs/${id}`).then(r => r.json()).then(data => { setJob(data); setLoading(false); });
+    fetch(`/api/jobs/${id}`).then(r => r.json()).then(data => { setJob(data?.error ? null : data); setLoading(false); }).catch(() => setLoading(false));
   }, [id]);
 
   async function updateStatus(status: string) {
