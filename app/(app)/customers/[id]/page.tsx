@@ -19,7 +19,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/customers/${id}`).then(r => r.json()).then(data => { setCustomer(data); setLoading(false); });
+    fetch(`/api/customers/${id}`).then(r => r.json()).then(data => { setCustomer(data?.error ? null : data); setLoading(false); }).catch(() => setLoading(false));
   }, [id]);
 
   async function deleteCustomer() {
@@ -65,7 +65,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
           {(customer.jobs ?? []).length === 0 ? (
             <p className="text-sm text-gray-400 text-center py-6">Brak zleceń</p>
           ) : (
-            customer.jobs.map(job => (
+            (customer.jobs ?? []).map(job => (
               <Link key={job.id} href={`/jobs/${job.id}`}>
                 <div className="bg-white rounded-xl border border-gray-200 px-4 py-3 active:bg-gray-50">
                   <div className="flex items-center justify-between gap-2">
