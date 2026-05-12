@@ -1,16 +1,23 @@
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
+const inputStyle: React.CSSProperties = {
+  background: "hsl(217 33% 9%)",
+  borderColor: "hsl(217 33% 18%)",
+  color: "hsl(210 40% 98%)",
+};
+
 export const Input = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ className, ...props }, ref) => (
     <input
       ref={ref}
       className={cn(
-        "w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white",
-        "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
-        "disabled:bg-gray-50 disabled:text-gray-400 placeholder:text-gray-400",
+        "w-full px-3 py-2.5 border rounded-lg text-sm transition-all",
+        "focus:outline-none focus:ring-2 focus:border-transparent",
+        "disabled:opacity-50 placeholder:opacity-40",
         className
       )}
+      style={{ ...inputStyle, ...(props.style ?? {}) }}
       {...props}
     />
   )
@@ -22,11 +29,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttrib
     <textarea
       ref={ref}
       className={cn(
-        "w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white resize-none",
-        "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
-        "placeholder:text-gray-400",
+        "w-full px-3 py-2.5 border rounded-lg text-sm resize-none transition-all",
+        "focus:outline-none focus:ring-2 focus:border-transparent",
+        "placeholder:opacity-40",
         className
       )}
+      style={{ ...inputStyle, ...(props.style ?? {}) }}
       {...props}
     />
   )
@@ -34,5 +42,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttrib
 Textarea.displayName = "Textarea";
 
 export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
-  return <label className={cn("block text-sm font-medium text-gray-700 mb-1", className)} {...props} />;
+  return (
+    <label
+      className={cn("block text-xs font-medium mb-1.5 uppercase tracking-wide", className)}
+      style={{ color: "hsl(215 20% 55%)" }}
+      {...props}
+    />
+  );
 }

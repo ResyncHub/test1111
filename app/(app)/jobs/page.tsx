@@ -34,9 +34,16 @@ export default function JobsPage() {
           <button
             key={t.value}
             onClick={() => setTab(t.value)}
-            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-              tab === t.value ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500"
-            }`}
+            className="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+            style={tab === t.value ? {
+              background: "hsl(217 91% 60%)",
+              borderColor: "hsl(217 91% 60%)",
+              color: "hsl(222 47% 5%)",
+            } : {
+              background: "transparent",
+              borderColor: "hsl(217 33% 20%)",
+              color: "hsl(215 20% 55%)",
+            }}
           >
             {t.label}
           </button>
@@ -45,7 +52,9 @@ export default function JobsPage() {
 
       {loading ? (
         <div className="space-y-3">
-          {[1,2,3].map(i => <div key={i} className="h-24 bg-gray-100 rounded-xl animate-pulse" />)}
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-24 rounded-xl animate-pulse" style={{ background: "hsl(217 33% 12%)" }} />
+          ))}
         </div>
       ) : jobs.length === 0 ? (
         <EmptyState icon="📋" title="Brak zleceń" description="Dodaj pierwsze zlecenie" />
@@ -56,7 +65,11 @@ export default function JobsPage() {
       )}
 
       {/* FAB */}
-      <Link href="/jobs/new" className="fixed right-4 bottom-24 z-40 bg-primary text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+      <Link
+        href="/jobs/new"
+        className="fixed right-4 bottom-24 z-40 rounded-full w-14 h-14 flex items-center justify-center shadow-lg active:scale-95 transition-transform"
+        style={{ background: "hsl(217 91% 60%)", color: "hsl(222 47% 5%)" }}
+      >
         <Plus size={24} />
       </Link>
     </div>

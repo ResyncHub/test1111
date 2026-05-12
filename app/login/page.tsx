@@ -28,47 +28,92 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ background: "hsl(222 47% 5%)" }}
+    >
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="text-4xl mb-2">🔧</div>
-          <h1 className="text-2xl font-bold text-gray-900">Mózg Serwisowy</h1>
-          <p className="text-sm text-gray-500 mt-1">Panel zarządzania serwisem okienno-drzwiowym</p>
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: "hsl(217 91% 60%)" }}
+          >
+            <span className="text-2xl font-bold" style={{ color: "hsl(222 47% 5%)" }}>MS</span>
+          </div>
+          <h1 className="text-2xl font-bold" style={{ color: "hsl(210 40% 98%)" }}>Mózg Serwisowy</h1>
+          <p className="text-sm mt-1" style={{ color: "hsl(215 20% 55%)" }}>Panel zarządzania serwisem okienno-drzwiowym</p>
         </div>
 
-        <form onSubmit={handleLogin} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4">
+        <form
+          onSubmit={handleLogin}
+          className="rounded-2xl border p-6 space-y-4"
+          style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label
+              className="block text-xs font-medium mb-1.5 uppercase tracking-wide"
+              style={{ color: "hsl(215 20% 55%)" }}
+            >
+              Email
+            </label>
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2.5 rounded-lg text-sm border focus:outline-none transition-all placeholder:opacity-40"
+              style={{
+                background: "hsl(217 33% 9%)",
+                borderColor: "hsl(217 33% 18%)",
+                color: "hsl(210 40% 98%)",
+              }}
               placeholder="twoj@email.pl"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Hasło</label>
+            <label
+              className="block text-xs font-medium mb-1.5 uppercase tracking-wide"
+              style={{ color: "hsl(215 20% 55%)" }}
+            >
+              Hasło
+            </label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2.5 rounded-lg text-sm border focus:outline-none transition-all placeholder:opacity-40"
+              style={{
+                background: "hsl(217 33% 9%)",
+                borderColor: "hsl(217 33% 18%)",
+                color: "hsl(210 40% 98%)",
+              }}
               placeholder="••••••••"
             />
           </div>
 
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
+            <p
+              className="text-sm px-3 py-2 rounded-lg border"
+              style={{
+                color: "hsl(0 72% 61%)",
+                background: "hsla(0,72%,51%,0.1)",
+                borderColor: "hsla(0,72%,51%,0.2)",
+              }}
+            >
+              {error}
+            </p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium disabled:opacity-50 transition-opacity"
+            className="w-full py-2.5 rounded-lg text-sm font-medium disabled:opacity-50 transition-opacity active:scale-95 transition-transform"
+            style={{
+              background: "hsl(217 91% 60%)",
+              color: "hsl(222 47% 5%)",
+            }}
           >
             {loading ? "Logowanie..." : "Zaloguj się"}
           </button>

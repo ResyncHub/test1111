@@ -4,36 +4,74 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --ring: 221.2 83.2% 53.3%;
+    --background: 222 47% 5%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 98%;
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 55%;
+    --border: 217 33% 15%;
+    --input: 217 33% 15%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 5%;
+    --secondary: 217 33% 12%;
+    --secondary-foreground: 210 40% 98%;
+    --accent: 217 33% 12%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: 217 91% 60%;
     --radius: 0.5rem;
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+    --font-sans: "Inter", "Geist", system-ui, sans-serif;
   }
 }
 
 @layer base {
-  * { @apply border-border; }
+  * { @apply border-border; box-sizing: border-box; }
   body {
-    @apply bg-background text-foreground;
-    font-family: system-ui, -apple-system, sans-serif;
+    background-color: hsl(222 47% 5%);
+    color: hsl(210 40% 98%);
+    font-family: var(--font-inter, var(--font-sans, system-ui, -apple-system, sans-serif));
+    -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
   }
 }
 
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(217 33% 20%); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(217 33% 30%); }
+
 /* Safe area insets for mobile PWA */
 .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
 .pt-safe { padding-top: env(safe-area-inset-top); }
+
+/* FullCalendar dark theme overrides */
+.fc {
+  --fc-border-color: hsl(217 33% 15%);
+  --fc-button-bg-color: hsl(217 33% 12%);
+  --fc-button-border-color: hsl(217 33% 15%);
+  --fc-button-text-color: hsl(210 40% 98%);
+  --fc-button-hover-bg-color: hsl(217 33% 18%);
+  --fc-button-hover-border-color: hsl(217 33% 20%);
+  --fc-button-active-bg-color: hsl(217 91% 60%);
+  --fc-button-active-border-color: hsl(217 91% 60%);
+  --fc-today-bg-color: hsla(217, 91%, 60%, 0.08);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: hsl(217 33% 12%);
+  --fc-list-event-hover-bg-color: hsl(217 33% 15%);
+  --fc-event-bg-color: hsl(217 91% 60%);
+  --fc-event-border-color: hsl(217 91% 60%);
+  --fc-event-text-color: white;
+}
+.fc .fc-toolbar-title { color: hsl(210 40% 98%); }
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number { color: hsl(215 20% 55%); }
+.fc .fc-daygrid-day-number:hover { color: hsl(210 40% 98%); }
+.fc-theme-standard td, .fc-theme-standard th { border-color: hsl(217 33% 15%); }
+.fc-daygrid-day-frame { background: transparent !important; }
+.fc-scrollgrid { background: transparent !important; }

@@ -7,6 +7,12 @@ import { Input, Label, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+const selectStyle: React.CSSProperties = {
+  background: "hsl(217 33% 9%)",
+  borderColor: "hsl(217 33% 18%)",
+  color: "hsl(210 40% 98%)",
+};
+
 export default function NewJobPage() {
   const router = useRouter();
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -46,28 +52,38 @@ export default function NewJobPage() {
   return (
     <div className="py-4">
       <form onSubmit={submit} className="space-y-4">
-        <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+        <div className="rounded-xl border p-4 space-y-3" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
           <div>
             <Label>Tytuł zlecenia *</Label>
             <Input value={form.title} onChange={e => set("title", e.target.value)} placeholder="np. Montaż okna balkonowego" required />
           </div>
           <div>
             <Label>Klient</Label>
-            <select value={form.customer_id} onChange={e => set("customer_id", e.target.value)} className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary">
+            <select
+              value={form.customer_id}
+              onChange={e => set("customer_id", e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg text-sm border focus:outline-none"
+              style={selectStyle}
+            >
               <option value="">— wybierz klienta —</option>
               {customers.map(c => <option key={c.id} value={c.id}>{c.full_name} {c.city ? `(${c.city})` : ""}</option>)}
             </select>
           </div>
           <div>
             <Label>Kategoria usługi</Label>
-            <select value={form.category_id} onChange={e => set("category_id", e.target.value)} className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary">
+            <select
+              value={form.category_id}
+              onChange={e => set("category_id", e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg text-sm border focus:outline-none"
+              style={selectStyle}
+            >
               <option value="">— wybierz kategorię —</option>
               {categories.map(c => <option key={c.id} value={c.id}>{c.name}{c.base_price ? ` (od ${c.base_price} PLN)` : ""}</option>)}
             </select>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+        <div className="rounded-xl border p-4 space-y-3" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
           <div>
             <Label>Data i godzina rozpoczęcia</Label>
             <Input type="datetime-local" value={form.scheduled_at} onChange={e => set("scheduled_at", e.target.value)} />
@@ -82,7 +98,7 @@ export default function NewJobPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+        <div className="rounded-xl border p-4 space-y-3" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
           <div>
             <Label>Wartość zlecenia (PLN)</Label>
             <Input type="number" value={form.revenue} onChange={e => set("revenue", e.target.value)} placeholder="0.00" step="0.01" />

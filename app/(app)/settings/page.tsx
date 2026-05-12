@@ -41,25 +41,39 @@ export default function SettingsPage() {
   return (
     <div className="py-4 space-y-4">
       {/* Firma */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
-        <h3 className="text-sm font-semibold text-gray-700">Dane firmy</h3>
-        <div><Label>Nazwa firmy</Label><Input value={settings.business_name} onChange={e => setSettings(p => ({ ...p, business_name: e.target.value }))} /></div>
-        <div><Label>Imię i nazwisko</Label><Input value={settings.owner_name} onChange={e => setSettings(p => ({ ...p, owner_name: e.target.value }))} /></div>
+      <div className="rounded-xl border p-4 space-y-3" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
+        <h3 className="text-sm font-semibold" style={{ color: "hsl(210 40% 98%)" }}>Dane firmy</h3>
+        <div>
+          <Label>Nazwa firmy</Label>
+          <Input value={settings.business_name} onChange={e => setSettings(p => ({ ...p, business_name: e.target.value }))} />
+        </div>
+        <div>
+          <Label>Imię i nazwisko</Label>
+          <Input value={settings.owner_name} onChange={e => setSettings(p => ({ ...p, owner_name: e.target.value }))} />
+        </div>
         <Button onClick={saveSettings}>Zapisz</Button>
       </div>
 
       {/* Kategorie */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Kategorie usług</h3>
+      <div className="rounded-xl border p-4" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
+        <h3 className="text-sm font-semibold mb-3" style={{ color: "hsl(210 40% 98%)" }}>Kategorie usług</h3>
         <div className="space-y-2 mb-3">
           {categories.map(c => (
-            <div key={c.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-              <span className="text-sm text-gray-800">{c.name}</span>
-              {c.base_price && <span className="text-xs text-emerald-600 font-medium">od {formatPLN(c.base_price)}</span>}
+            <div
+              key={c.id}
+              className="flex items-center justify-between py-2 border-b last:border-0"
+              style={{ borderColor: "hsl(217 33% 13%)" }}
+            >
+              <span className="text-sm" style={{ color: "hsl(210 40% 90%)" }}>{c.name}</span>
+              {c.base_price && (
+                <span className="text-xs font-medium" style={{ color: "hsl(142 76% 46%)" }}>
+                  od {formatPLN(c.base_price)}
+                </span>
+              )}
             </div>
           ))}
         </div>
-        <div className="space-y-2 pt-2 border-t border-gray-100">
+        <div className="space-y-2 pt-2 border-t" style={{ borderColor: "hsl(217 33% 13%)" }}>
           <div><Label>Nowa kategoria</Label><Input value={newCat.name} onChange={e => setNewCat(p => ({ ...p, name: e.target.value }))} placeholder="np. Naprawa rolety" /></div>
           <div><Label>Cena bazowa (PLN)</Label><Input type="number" value={newCat.base_price} onChange={e => setNewCat(p => ({ ...p, base_price: e.target.value }))} placeholder="0.00" /></div>
           <Button size="sm" onClick={addCategory}>Dodaj kategorię</Button>
@@ -67,9 +81,17 @@ export default function SettingsPage() {
       </div>
 
       {/* Wyloguj */}
-      <Button variant="outline" className="w-full text-red-500 border-red-200" onClick={logout}>
+      <button
+        onClick={logout}
+        className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-colors"
+        style={{
+          background: "transparent",
+          borderColor: "hsla(0,72%,51%,0.3)",
+          color: "hsl(0 72% 61%)",
+        }}
+      >
         <LogOut size={16} /> Wyloguj się
-      </Button>
+      </button>
     </div>
   );
 }

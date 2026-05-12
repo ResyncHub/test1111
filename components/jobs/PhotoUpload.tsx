@@ -20,7 +20,6 @@ export function PhotoUpload({ jobId, photos: initial }: { jobId: string; photos:
     setUploading(true);
 
     try {
-      // 1. Get signed upload URL
       const uploadRes = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -28,10 +27,8 @@ export function PhotoUpload({ jobId, photos: initial }: { jobId: string; photos:
       });
       const { uploadUrl, path, publicUrl } = await uploadRes.json();
 
-      // 2. Upload directly to Supabase Storage
       await fetch(uploadUrl, { method: "PUT", body: file, headers: { "Content-Type": file.type } });
 
-      // 3. Save record in DB
       const photoRes = await fetch(`/api/jobs/${jobId}/photos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,8 +60,11 @@ export function PhotoUpload({ jobId, photos: initial }: { jobId: string; photos:
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-semibold text-gray-700">Zdjęcia</h4>
-        <label className={`flex items-center gap-1.5 text-xs font-medium text-primary cursor-pointer ${uploading ? "opacity-50 pointer-events-none" : ""}`}>
+        <h4 className="text-sm font-semibold" style={{ color: "hsl(210 40% 98%)" }}>Zdjęcia</h4>
+        <label
+          className={`flex items-center gap-1.5 text-xs font-medium cursor-pointer transition-opacity ${uploading ? "opacity-50 pointer-events-none" : ""}`}
+          style={{ color: "hsl(217 91% 60%)" }}
+        >
           <Camera size={14} /> {uploading ? "Uploading..." : "Dodaj"}
           <input type="file" accept="image/*" capture="environment" onChange={handleFile} className="hidden" />
         </label>
@@ -72,21 +72,33 @@ export function PhotoUpload({ jobId, photos: initial }: { jobId: string; photos:
 
       <div className="flex gap-2 mb-3">
         {tabs.map(t => (
-          <button key={t.value} onClick={() => setActiveTab(t.value)}
-            className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${activeTab === t.value ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500"}`}>
+          <button
+            key={t.value}
+            onClick={() => setActiveTab(t.value)}
+            className="px-3 py-1 rounded-full text-xs font-medium border transition-colors"
+            style={activeTab === t.value ? {
+              background: "hsl(217 91% 60%)",
+              borderColor: "hsl(217 91% 60%)",
+              color: "hsl(222 47% 5%)",
+            } : {
+              background: "transparent",
+              borderColor: "hsl(217 33% 20%)",
+              color: "hsl(215 20% 55%)",
+            }}
+          >
             {t.label}
           </button>
         ))}
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-6">Brak zdjęć</p>
+        <p className="text-sm text-center py-6" style={{ color: "hsl(215 20% 45%)" }}>Brak zdjęć</p>
       ) : (
         <div className="grid grid-cols-3 gap-2">
           {filtered.map(p => (
-            <div key={p.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
+            <div key={p.id} className="relative aspect-square rounded-lg overflow-hidden" style={{ background: "hsl(217 33% 12%)" }}>
               {p.public_url && <img src={p.public_url} alt={p.caption ?? ""} className="w-full h-full object-cover" />}
-              <button onClick={() => deletePhoto(p.id)} className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-0.5">
+              <button onClick={() => deletePhoto(p.id)} className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5">
                 <X size={12} />
               </button>
             </div>
