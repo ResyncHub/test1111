@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Job } from "@/types";
 import { JobStatusStepper } from "@/components/jobs/JobStatusBadge";
@@ -12,8 +12,8 @@ import { PhotoUpload } from "@/components/jobs/PhotoUpload";
 import { toast } from "sonner";
 import Link from "next/link";
 
-export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function JobDetailPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const router = useRouter();
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,7 +43,6 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
   return (
     <div className="py-4 space-y-4">
-      {/* Header */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1">
           <h2 className="text-lg font-bold text-gray-900 leading-snug">{job.title}</h2>
@@ -57,13 +56,11 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
         </div>
       </div>
 
-      {/* Status */}
       <div className="bg-white rounded-xl border border-gray-200 p-4">
         <p className="text-xs font-medium text-gray-500 mb-2">STATUS</p>
         <JobStatusStepper current={job.status} onChange={updateStatus} />
       </div>
 
-      {/* Info */}
       <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
         {job.customer && (
           <div className="flex items-center gap-2">
@@ -90,7 +87,6 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
         {job.notes && <p className="text-xs text-gray-400 italic">{job.notes}</p>}
       </div>
 
-      {/* Finanse */}
       <div className="bg-white rounded-xl border border-gray-200 p-4">
         <p className="text-xs font-medium text-gray-500 mb-3">FINANSE</p>
         <div className="grid grid-cols-3 gap-2">
@@ -109,12 +105,10 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
         </div>
       </div>
 
-      {/* Koszty */}
       <div className="bg-white rounded-xl border border-gray-200 p-4">
         <CostsList jobId={id} costs={job.costs ?? []} />
       </div>
 
-      {/* Zdjęcia */}
       <div className="bg-white rounded-xl border border-gray-200 p-4">
         <PhotoUpload jobId={id} photos={job.photos ?? []} />
       </div>
