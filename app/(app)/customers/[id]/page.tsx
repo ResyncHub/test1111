@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Customer, Job } from "@/types";
 import { StatusBadge } from "@/components/ui/badge";
@@ -12,8 +12,8 @@ import Link from "next/link";
 
 type CustomerWithJobs = Customer & { jobs: Job[] };
 
-export default function CustomerDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function CustomerDetailPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const router = useRouter();
   const [customer, setCustomer] = useState<CustomerWithJobs | null>(null);
   const [loading, setLoading] = useState(true);
