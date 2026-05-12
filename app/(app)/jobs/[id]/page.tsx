@@ -35,8 +35,16 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
     else toast.error("Błąd usuwania");
   }
 
-  if (loading) return <div className="py-8 space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-gray-100 rounded-xl animate-pulse" />)}</div>;
-  if (!job) return <div className="py-16 text-center text-gray-400">Nie znaleziono zlecenia</div>;
+  if (loading) return (
+    <div className="py-8 space-y-3">
+      {[1, 2, 3].map(i => (
+        <div key={i} className="h-16 rounded-xl animate-pulse" style={{ background: "hsl(217 33% 12%)" }} />
+      ))}
+    </div>
+  );
+  if (!job) return (
+    <div className="py-16 text-center" style={{ color: "hsl(215 20% 45%)" }}>Nie znaleziono zlecenia</div>
+  );
 
   const totalCosts = (job.costs ?? []).reduce((s, c) => s + Number(c.amount), 0);
   const profit = Number(job.revenue) - totalCosts;
@@ -45,8 +53,8 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
     <div className="py-4 space-y-4">
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1">
-          <h2 className="text-lg font-bold text-gray-900 leading-snug">{job.title}</h2>
-          {job.category && <p className="text-xs text-gray-400 mt-0.5">{job.category.name}</p>}
+          <h2 className="text-lg font-bold leading-snug" style={{ color: "hsl(210 40% 98%)" }}>{job.title}</h2>
+          {job.category && <p className="text-xs mt-0.5" style={{ color: "hsl(215 20% 45%)" }}>{job.category.name}</p>}
         </div>
         <div className="flex gap-2">
           <Link href={`/jobs/${id}/edit`}>
@@ -56,60 +64,72 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
-        <p className="text-xs font-medium text-gray-500 mb-2">STATUS</p>
+      <div className="rounded-xl border p-4" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
+        <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "hsl(215 20% 55%)" }}>STATUS</p>
         <JobStatusStepper current={job.status} onChange={updateStatus} />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+      <div className="rounded-xl border p-4 space-y-3" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
         {job.customer && (
           <div className="flex items-center gap-2">
-            <User size={16} className="text-gray-400 shrink-0" />
+            <User size={16} className="shrink-0" style={{ color: "hsl(215 20% 45%)" }} />
             <div>
-              <Link href={`/customers/${job.customer.id}`} className="text-sm font-medium text-primary">{job.customer.full_name}</Link>
-              {job.customer.phone && <p className="text-xs text-gray-400 flex items-center gap-1"><Phone size={10}/>{job.customer.phone}</p>}
+              <Link href={`/customers/${job.customer.id}`} className="text-sm font-medium" style={{ color: "hsl(217 91% 60%)" }}>
+                {job.customer.full_name}
+              </Link>
+              {job.customer.phone && (
+                <p className="text-xs flex items-center gap-1 mt-0.5" style={{ color: "hsl(215 20% 45%)" }}>
+                  <Phone size={10}/>{job.customer.phone}
+                </p>
+              )}
             </div>
           </div>
         )}
         {job.scheduled_at && (
           <div className="flex items-center gap-2">
-            <Calendar size={16} className="text-gray-400 shrink-0" />
-            <span className="text-sm text-gray-700">{formatDateTime(job.scheduled_at)}</span>
+            <Calendar size={16} className="shrink-0" style={{ color: "hsl(215 20% 45%)" }} />
+            <span className="text-sm" style={{ color: "hsl(210 40% 90%)" }}>{formatDateTime(job.scheduled_at)}</span>
           </div>
         )}
         {job.address && (
           <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-gray-400 shrink-0" />
-            <span className="text-sm text-gray-700">{job.address}</span>
+            <MapPin size={16} className="shrink-0" style={{ color: "hsl(215 20% 45%)" }} />
+            <span className="text-sm" style={{ color: "hsl(210 40% 90%)" }}>{job.address}</span>
           </div>
         )}
-        {job.description && <p className="text-sm text-gray-600 pt-1 border-t border-gray-100">{job.description}</p>}
-        {job.notes && <p className="text-xs text-gray-400 italic">{job.notes}</p>}
+        {job.description && (
+          <p className="text-sm pt-2 border-t" style={{ borderColor: "hsl(217 33% 15%)", color: "hsl(215 20% 70%)" }}>
+            {job.description}
+          </p>
+        )}
+        {job.notes && (
+          <p className="text-xs italic" style={{ color: "hsl(215 20% 45%)" }}>{job.notes}</p>
+        )}
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
-        <p className="text-xs font-medium text-gray-500 mb-3">FINANSE</p>
+      <div className="rounded-xl border p-4" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
+        <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "hsl(215 20% 55%)" }}>FINANSE</p>
         <div className="grid grid-cols-3 gap-2">
           <div className="text-center">
-            <p className="text-xs text-gray-400">Przychód</p>
-            <p className="text-sm font-bold text-emerald-600">{formatPLN(Number(job.revenue))}</p>
+            <p className="text-xs" style={{ color: "hsl(215 20% 45%)" }}>Przychód</p>
+            <p className="text-sm font-bold" style={{ color: "hsl(142 76% 46%)" }}>{formatPLN(Number(job.revenue))}</p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-gray-400">Koszty</p>
-            <p className="text-sm font-bold text-red-500">{formatPLN(totalCosts)}</p>
+            <p className="text-xs" style={{ color: "hsl(215 20% 45%)" }}>Koszty</p>
+            <p className="text-sm font-bold" style={{ color: "hsl(0 72% 61%)" }}>{formatPLN(totalCosts)}</p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-gray-400">Zysk</p>
-            <p className={`text-sm font-bold ${profit >= 0 ? "text-blue-600" : "text-red-600"}`}>{formatPLN(profit)}</p>
+            <p className="text-xs" style={{ color: "hsl(215 20% 45%)" }}>Zysk</p>
+            <p className="text-sm font-bold" style={{ color: profit >= 0 ? "hsl(217 91% 60%)" : "hsl(0 72% 61%)" }}>{formatPLN(profit)}</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
+      <div className="rounded-xl border p-4" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
         <CostsList jobId={id} costs={job.costs ?? []} />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
+      <div className="rounded-xl border p-4" style={{ background: "hsl(222 47% 7%)", borderColor: "hsl(217 33% 15%)" }}>
         <PhotoUpload jobId={id} photos={job.photos ?? []} />
       </div>
     </div>
