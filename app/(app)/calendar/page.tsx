@@ -42,8 +42,8 @@ export default function CalendarPage() {
               end: j.scheduled_end_at ?? undefined,
               backgroundColor: STATUS_COLORS[j.status] ?? "#6b7280",
             })) : []);
-          } catch {
-            failure({ message: "Błąd ładowania kalendarza" });
+          } catch (err) {
+  failure(err instanceof Error ? err : new Error("Błąd ładowania kalendarza"));
           }
         }}
         eventClick={info => router.push(`/jobs/${info.event.id}`)}
