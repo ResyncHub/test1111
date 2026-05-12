@@ -20,7 +20,8 @@ export default function NewJobPage() {
 
   useEffect(() => {
     Promise.all([fetch("/api/customers").then(r => r.json()), fetch("/api/categories").then(r => r.json())])
-      .then(([c, cat]) => { setCustomers(c); setCategories(cat); });
+      .then(([c, cat]) => { setCustomers(Array.isArray(c) ? c : []); setCategories(Array.isArray(cat) ? cat : []); })
+      .catch(() => {});
   }, []);
 
   function set(k: string, v: string) { setForm(p => ({ ...p, [k]: v })); }

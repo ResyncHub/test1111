@@ -33,7 +33,8 @@ export default function CalendarPage() {
         headerToolbar={{ left: "prev,next", center: "title", right: "dayGridMonth,timeGridWeek" }}
         events={async (info, success, failure) => {
           try {
-            const res = await fetch(`/api/calendar?from=${info.startStr}&to=${info.endStr}`);
+            const params = new URLSearchParams({ from: info.startStr, to: info.endStr });
+            const res = await fetch(`/api/calendar?${params}`);
             const jobs = await res.json();
             success(Array.isArray(jobs) ? jobs.map((j: { id: string; title: string; status: string; scheduled_at: string; scheduled_end_at?: string; customer?: { full_name: string } }) => ({
               id: j.id,
