@@ -61,13 +61,14 @@ export async function executeTool(
       case "list_jobs": {
         let query = supabase
           .from("jobs")
-          .select("id,title,status,scheduled_at,revenue,customer:customers(full_name)")
+          .select("id,title,status,scheduled_at,revenue,address,customer:customers(full_name)")
           .order("scheduled_at", { ascending: false })
           .limit((toolInput.limit as number) ?? 20);
-        if (toolInput.status) query = query.eq("status", toolInput.status as string);
+        if (toolInput.status)      query = query.eq("status", toolInput.status as string);
         if (toolInput.customer_id) query = query.eq("customer_id", toolInput.customer_id as string);
-        if (toolInput.date_from) query = query.gte("scheduled_at", toolInput.date_from as string);
-        if (toolInput.date_to)   query = query.lte("scheduled_at", toolInput.date_to as string);
+        if (toolInput.date_from)   query = query.gte("scheduled_at", toolInput.date_from as string);
+        if (toolInput.date_to)     query = query.lte("scheduled_at", toolInput.date_to as string);
+        if (toolInput.address)     query = query.ilike("address", `%${toolInput.address}%`);
         const { data, error } = await query;
         if (error) throw error;
         content = JSON.stringify(data);
@@ -126,10 +127,13 @@ export async function executeTool(
       }
 
       case "search_customers": {
+        const field = (toolInput.by as string) === "phone" ? "phone"
+                    : (toolInput.by as string) === "city"  ? "city"
+                    : "full_name";
         const { data, error } = await supabase
           .from("customers")
-          .select("id,full_name,phone,city")
-          .ilike("full_name", `%${toolInput.query}%`)
+          .select("id,full_name,phone,city,address")
+          .ilike(field, `%${toolInput.query}%`)
           .limit((toolInput.limit as number) ?? 10);
         if (error) throw error;
         content = JSON.stringify(data);

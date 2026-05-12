@@ -44,7 +44,7 @@ export const agentTools: Anthropic.Tool[] = [
   },
   {
     name: "list_jobs",
-    description: "Pobiera listę zleceń. Filtruj po statusie, kliencie lub datach.",
+    description: "Pobiera listę zleceń. Filtruj po statusie, kliencie, datach lub adresie/miejscowości. Gdy użytkownik pyta o konkretną miejscowość lub adres, użyj parametru address.",
     input_schema: {
       type: "object",
       properties: {
@@ -52,6 +52,7 @@ export const agentTools: Anthropic.Tool[] = [
         customer_id: { type: "string" },
         date_from:   { type: "string", description: "ISO date YYYY-MM-DD" },
         date_to:     { type: "string" },
+        address:     { type: "string", description: "Szukaj po adresie lub miejscowości (np. 'Jeleśnia', 'Bielsko')" },
         limit:       { type: "number" },
       },
     },
@@ -111,12 +112,13 @@ export const agentTools: Anthropic.Tool[] = [
   },
   {
     name: "search_customers",
-    description: "Wyszukuje klientów po imieniu, nazwisku, telefonie lub mieście.",
+    description: "Wyszukuje klientów po imieniu/nazwisku, telefonie lub mieście.",
     input_schema: {
       type: "object",
       properties: {
-        query: { type: "string" },
-        limit: { type: "number" },
+        query:  { type: "string", description: "Szukaj po nazwisku, imieniu, telefonie lub mieście" },
+        by:     { type: "string", enum: ["name","phone","city"], description: "Pole wyszukiwania (domyślnie name)" },
+        limit:  { type: "number" },
       },
       required: ["query"],
     },
