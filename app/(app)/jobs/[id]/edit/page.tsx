@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Customer, ServiceCategory, Job } from "@/types";
 import { Input, Label, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export default function EditJobPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function EditJobPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const router = useRouter();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
@@ -24,19 +24,22 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       fetch("/api/customers").then(r => r.json()),
       fetch("/api/categories").then(r => r.json()),
     ]).then(([job, c, cat]: [Job, Customer[], ServiceCategory[]]) => {
-      setCustomers(c); setCategories(cat);
-      setForm({
-        title:            job.title,
-        customer_id:      job.customer_id ?? "",
-        category_id:      job.category_id ?? "",
-        description:      job.description ?? "",
-        scheduled_at:     job.scheduled_at ? job.scheduled_at.slice(0, 16) : "",
-        scheduled_end_at: job.scheduled_end_at ? job.scheduled_end_at.slice(0, 16) : "",
-        address:          job.address ?? "",
-        notes:            job.notes ?? "",
-        revenue:          String(job.revenue ?? 0),
-      });
-    });
+      setCustomers(Array.isArray(c) ? c : []);
+      setCategories(Array.isArray(cat) ? cat : []);
+      if (job && !job.error) {
+        setForm({
+          title:            job.title,
+          customer_id:      job.customer_id ?? "",
+          category_id:      job.category_id ?? "",
+          description:      job.description ?? "",
+          scheduled_at:     job.scheduled_at ? job.scheduled_at.slice(0, 16) : "",
+          scheduled_end_at: job.scheduled_end_at ? job.scheduled_end_at.slice(0, 16) : "",
+          address:          job.address ?? "",
+          notes:            job.notes ?? "",
+          revenue:          String(job.revenue ?? 0),
+        });
+      }
+    }).catch(() => {});
   }, [id]);
 
   function set(k: string, v: string) { setForm(p => ({ ...p, [k]: v })); }
