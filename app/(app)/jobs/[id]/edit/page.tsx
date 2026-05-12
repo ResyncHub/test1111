@@ -23,9 +23,9 @@ export default function EditJobPage({ params }: { params: { id: string } }) {
       fetch(`/api/jobs/${id}`).then(r => r.json()),
       fetch("/api/customers").then(r => r.json()),
       fetch("/api/categories").then(r => r.json()),
-    ]).then(([job, c, cat]: [Job, Customer[], ServiceCategory[]]) => {
-      setCustomers(Array.isArray(c) ? c : []);
-      setCategories(Array.isArray(cat) ? cat : []);
+    ]).then(([job, c, cat]: [Job & { error?: string }, unknown, unknown]) => {
+      setCustomers(Array.isArray(c) ? c as Customer[] : []);
+      setCategories(Array.isArray(cat) ? cat as ServiceCategory[] : []);
       if (job && !job.error) {
         setForm({
           title:            job.title,
