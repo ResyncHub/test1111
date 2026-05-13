@@ -1,4 +1,4 @@
-import { cn, JOB_STATUS_COLORS, JOB_STATUS_LABELS } from "@/lib/utils";
+import { cn, JOB_STATUS_LABELS } from "@/lib/utils";
 
 export function Badge({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   return <span className={cn("inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium", className)} {...props}>{children}</span>;
